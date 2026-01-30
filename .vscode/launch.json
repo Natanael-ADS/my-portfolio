@@ -12,7 +12,7 @@
             "args": [
                 "-d",
                 "chrome",
-                "--no-web-experimental-hot-reload",
+                // "--no-web-experimental-hot-reload",
             ]
         },
     ]
