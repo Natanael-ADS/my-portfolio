@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_portfolio/constants/app_colors.dart';
 import 'package:my_portfolio/page/home_page.dart';
 
 void main() {
@@ -12,7 +13,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(colorScheme: .fromSeed(seedColor: AppColors.primary)),
       home: const HomePage(),
     );
   }
