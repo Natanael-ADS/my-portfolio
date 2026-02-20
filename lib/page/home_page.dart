@@ -17,10 +17,38 @@ class _HomePageState extends State<HomePage> {
   static const _sectionHeight = 500.0;
 
   var _selectedIndex = 0;
+  final _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    final scrollPosition = _scrollController.position.pixels;
+    final newIndex = (scrollPosition / _sectionHeight).round().clamp(0, 3);
+    
+    if (newIndex != _selectedIndex) {
+      setState(() => _selectedIndex = newIndex);
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollToSection(int index) {
+    setState(() => _selectedIndex = index);
+    
+    final targetPosition = index * _sectionHeight;
+    _scrollController.animateTo(
+      targetPosition,
+      duration: const Duration(milliseconds: 800),
+      curve: Curves.easeInOut,
+    );
   }
 
   @override
@@ -37,32 +65,32 @@ class _HomePageState extends State<HomePage> {
               Spacer(),
               AppTextButton(
                 text: 'Início',
-                onPressed: () => setState(() => _selectedIndex = 0),
+                onPressed: () => _scrollToSection(0),
                 textStyle: _getTitleStyle(0),
               ),
               SizedBox(width: _titleSizeWithSpacing),
               AppTextButton(
                 text: 'Sobre',
-                onPressed: () => setState(() => _selectedIndex = 1),
+                onPressed: () => _scrollToSection(1),
                 textStyle: _getTitleStyle(1),
               ),
               SizedBox(width: _titleSizeWithSpacing),
               AppTextButton(
                 text: 'Habilidades',
-                onPressed: () => setState(() => _selectedIndex = 2),
+                onPressed: () => _scrollToSection(2),
                 textStyle: _getTitleStyle(2),
               ),
               SizedBox(width: _titleSizeWithSpacing),
               AppTextButton(
                 text: 'Projetos',
-                onPressed: () => setState(() => _selectedIndex = 3),
+                onPressed: () => _scrollToSection(3),
                 textStyle: _getTitleStyle(3),
               ),
               SizedBox(width: _titleSizeWithSpacing),
               Spacer(),
               AppFilledButton(
                 text: 'Contrate-me',
-                onPressed: () => setState(() => _selectedIndex = 4),
+                onPressed: () => _scrollToSection(4),
               ),
             ],
           ),
@@ -70,6 +98,7 @@ class _HomePageState extends State<HomePage> {
       ),
       backgroundColor: AppColors.background,
       body: ListView(
+        controller: _scrollController,
         children: [
           Container(
             color: Colors.red,
