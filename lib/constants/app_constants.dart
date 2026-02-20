@@ -29,4 +29,7 @@ busco sempre criar soluções que fazem a diferença na vida das pessoas.
   static const double paddingMedium = 24.0;
   static const double paddingLarge = 48.0;
   static const double paddingXLarge = 64.0;
+
+  // Alturas das seções
+  static const double homeSectionHeight = 500.0;
 }

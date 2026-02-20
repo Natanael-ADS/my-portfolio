@@ -3,7 +3,9 @@ import 'package:my_portfolio/components/button/app_filled_button.dart';
 import 'package:my_portfolio/components/button/app_text_button.dart';
 import 'package:my_portfolio/constants/app_assets.dart';
 import 'package:my_portfolio/constants/app_colors.dart';
+import 'package:my_portfolio/constants/app_constants.dart';
 import 'package:my_portfolio/constants/app_fonts.dart';
+import 'package:my_portfolio/sections/home_section.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,7 +16,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   static const _titleSizeWithSpacing = 40.0;
-  static const _sectionHeight = 500.0;
 
   var _selectedIndex = 0;
   final _scrollController = ScrollController();
@@ -27,8 +28,8 @@ class _HomePageState extends State<HomePage> {
 
   void _onScroll() {
     final scrollPosition = _scrollController.position.pixels;
-    final newIndex = (scrollPosition / _sectionHeight).round().clamp(0, 3);
-    
+    final newIndex = (scrollPosition / AppConstants.homeSectionHeight).round().clamp(0, 3);
+
     if (newIndex != _selectedIndex) {
       setState(() => _selectedIndex = newIndex);
     }
@@ -42,13 +43,9 @@ class _HomePageState extends State<HomePage> {
 
   void _scrollToSection(int index) {
     setState(() => _selectedIndex = index);
-    
-    final targetPosition = index * _sectionHeight;
-    _scrollController.animateTo(
-      targetPosition,
-      duration: const Duration(milliseconds: 800),
-      curve: Curves.easeInOut,
-    );
+
+    final targetPosition = index * AppConstants.homeSectionHeight;
+    _scrollController.animateTo(targetPosition, duration: const Duration(milliseconds: 800), curve: Curves.easeInOut);
   }
 
   @override
@@ -63,35 +60,16 @@ class _HomePageState extends State<HomePage> {
             children: [
               Image.asset(AppAssets.logo, width: 32, height: 32),
               Spacer(),
-              AppTextButton(
-                text: 'Início',
-                onPressed: () => _scrollToSection(0),
-                textStyle: _getTitleStyle(0),
-              ),
+              AppTextButton(text: 'Início', onPressed: () => _scrollToSection(0), textStyle: _getTitleStyle(0)),
               SizedBox(width: _titleSizeWithSpacing),
-              AppTextButton(
-                text: 'Sobre',
-                onPressed: () => _scrollToSection(1),
-                textStyle: _getTitleStyle(1),
-              ),
+              AppTextButton(text: 'Sobre', onPressed: () => _scrollToSection(1), textStyle: _getTitleStyle(1)),
               SizedBox(width: _titleSizeWithSpacing),
-              AppTextButton(
-                text: 'Habilidades',
-                onPressed: () => _scrollToSection(2),
-                textStyle: _getTitleStyle(2),
-              ),
+              AppTextButton(text: 'Habilidades', onPressed: () => _scrollToSection(2), textStyle: _getTitleStyle(2)),
               SizedBox(width: _titleSizeWithSpacing),
-              AppTextButton(
-                text: 'Projetos',
-                onPressed: () => _scrollToSection(3),
-                textStyle: _getTitleStyle(3),
-              ),
+              AppTextButton(text: 'Projetos', onPressed: () => _scrollToSection(3), textStyle: _getTitleStyle(3)),
               SizedBox(width: _titleSizeWithSpacing),
               Spacer(),
-              AppFilledButton(
-                text: 'Contrate-me',
-                onPressed: () => _scrollToSection(4),
-              ),
+              AppFilledButton(text: 'Contrate-me', onPressed: () => _scrollToSection(4)),
             ],
           ),
         ),
@@ -100,24 +78,20 @@ class _HomePageState extends State<HomePage> {
       body: ListView(
         controller: _scrollController,
         children: [
-          Container(
-            color: Colors.red,
-            height: _sectionHeight,
-            child: Center(child: Text('Início')),
-          ),
+          HomeSection(),
           Container(
             color: Colors.blue,
-            height: _sectionHeight,
+            height: AppConstants.homeSectionHeight,
             child: Center(child: Text('Sobre')),
           ),
           Container(
             color: Colors.green,
-            height: _sectionHeight,
+            height: AppConstants.homeSectionHeight,
             child: Center(child: Text('Habilidades')),
           ),
           Container(
             color: Colors.yellow,
-            height: _sectionHeight,
+            height: AppConstants.homeSectionHeight,
             child: Center(child: Text('Projetos')),
           ),
         ],
