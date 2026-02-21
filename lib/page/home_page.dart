@@ -30,9 +30,9 @@ class _HomePageState extends State<HomePage> {
     final scrollPosition = _scrollController.position.pixels;
     final newIndex = (scrollPosition / AppConstants.homeSectionHeight).round().clamp(0, 3);
 
-    if (newIndex != _selectedIndex) {
-      setState(() => _selectedIndex = newIndex);
-    }
+    if (newIndex == _selectedIndex) return;
+
+    setState(() => _selectedIndex = newIndex);
   }
 
   @override
@@ -45,7 +45,11 @@ class _HomePageState extends State<HomePage> {
     setState(() => _selectedIndex = index);
 
     final targetPosition = index * AppConstants.homeSectionHeight;
-    _scrollController.animateTo(targetPosition, duration: const Duration(milliseconds: 800), curve: Curves.easeInOut);
+    _scrollController.animateTo(
+      targetPosition,
+      curve: Curves.easeInOut,
+      duration: const Duration(milliseconds: 800),
+    );
   }
 
   @override
@@ -53,30 +57,56 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.background,
-        title: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Image.asset(AppAssets.logo, width: 32, height: 32),
-              Spacer(),
-              AppTextButton(text: 'Início', onPressed: () => _scrollToSection(0), textStyle: _getTitleStyle(0)),
-              SizedBox(width: _titleSizeWithSpacing),
-              AppTextButton(text: 'Sobre', onPressed: () => _scrollToSection(1), textStyle: _getTitleStyle(1)),
-              SizedBox(width: _titleSizeWithSpacing),
-              AppTextButton(text: 'Habilidades', onPressed: () => _scrollToSection(2), textStyle: _getTitleStyle(2)),
-              SizedBox(width: _titleSizeWithSpacing),
-              AppTextButton(text: 'Projetos', onPressed: () => _scrollToSection(3), textStyle: _getTitleStyle(3)),
-              SizedBox(width: _titleSizeWithSpacing),
-              Spacer(),
-              AppFilledButton(text: 'Contrate-me', onPressed: () => _scrollToSection(4)),
-            ],
+        title: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: AppConstants.desktopBreakpoint),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: AppConstants.paddingLarge),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Image.asset(AppAssets.logo, width: 32, height: 32),
+                  Spacer(),
+                  AppTextButton(
+                    text: 'Início',
+                    onPressed: () => _scrollToSection(0),
+                    textStyle: _getTitleStyle(0),
+                  ),
+                  SizedBox(width: _titleSizeWithSpacing),
+                  AppTextButton(
+                    text: 'Sobre',
+                    onPressed: () => _scrollToSection(1),
+                    textStyle: _getTitleStyle(1),
+                  ),
+                  SizedBox(width: _titleSizeWithSpacing),
+                  AppTextButton(
+                    text: 'Habilidades',
+                    onPressed: () => _scrollToSection(2),
+                    textStyle: _getTitleStyle(2),
+                  ),
+                  SizedBox(width: _titleSizeWithSpacing),
+                  AppTextButton(
+                    text: 'Projetos',
+                    onPressed: () => _scrollToSection(3),
+                    textStyle: _getTitleStyle(3),
+                  ),
+                  SizedBox(width: _titleSizeWithSpacing),
+                  Spacer(),
+                  AppFilledButton(
+                    text: 'Contrate-me',
+                    onPressed: () => _scrollToSection(4),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ),
       backgroundColor: AppColors.background,
       body: ListView(
         controller: _scrollController,
+        physics: const BouncingScrollPhysics(),
+        padding: EdgeInsets.zero,
         children: [
           HomeSection(),
           Container(

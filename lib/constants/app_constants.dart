@@ -22,7 +22,7 @@ busco sempre criar soluções que fazem a diferença na vida das pessoas.
   // Responsividade
   static const double mobileBreakpoint = 768;
   static const double tabletBreakpoint = 1024;
-  static const double desktopBreakpoint = 1440;
+  static const double desktopBreakpoint = 1140;
 
   // Espaçamentos
   static const double paddingSmall = 16.0;
@@ -31,5 +31,5 @@ busco sempre criar soluções que fazem a diferença na vida das pessoas.
   static const double paddingXLarge = 64.0;
 
   // Alturas das seções
-  static const double homeSectionHeight = 500.0;
+  static const double homeSectionHeight = 550.0;
 }

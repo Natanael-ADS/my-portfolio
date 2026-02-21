@@ -1,0 +1,16 @@
+{
+  // Formatação automática ao salvar
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+
+  // Dart/Flutter: usa o formatador do SDK (respeita vírgulas finais para indentar)
+  "[dart]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "Dart-Code.dart-code",
+    "editor.selectionHighlight": true
+  },
+
+  // Garante que o analisador Dart use analysis_options.yaml (incl. require_trailing_commas)
+  "dart.analysisServerFolding": true,
+  "dart.previewFlutterUiGuides": true
+}
