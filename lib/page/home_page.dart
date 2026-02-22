@@ -5,7 +5,7 @@ import 'package:my_portfolio/constants/app_assets.dart';
 import 'package:my_portfolio/constants/app_colors.dart';
 import 'package:my_portfolio/constants/app_constants.dart';
 import 'package:my_portfolio/constants/app_fonts.dart';
-import 'package:my_portfolio/sections/home_section.dart';
+import 'package:my_portfolio/sections/home/home_section.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
