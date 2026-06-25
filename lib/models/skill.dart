@@ -1,6 +1,6 @@
 class Skill {
-  const Skill({required this.name, this.level});
+  const Skill({required this.name, required this.category});
 
   final String name;
-  final String? level;
+  final String category;
 }

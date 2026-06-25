@@ -11,35 +11,43 @@ class ProjectsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final columns = Responsive.isMobile(context) ? 1 : 2;
+
     return SectionContainer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Projetos', style: AppFonts.bold(36, AppColors.textPrimary)),
+          Text('Projetos & Apps', style: AppFonts.bold(36, AppColors.textPrimary)),
           const SizedBox(height: 8),
           Container(width: 60, height: 4, color: AppColors.primary),
+          const SizedBox(height: 12),
+          Text(
+            '${portfolioProjects.length} apps em que participei ou implementei — '
+            'de eventos de alto tráfego a ERPs offline-first e fintech.',
+            style: AppFonts.regular(15, AppColors.textSecondary),
+          ),
           const SizedBox(height: 32),
-          if (Responsive.isMobile(context))
-            Column(
-              children: portfolioProjects
-                  .map(
-                    (project) => Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: SizedBox(height: 320, child: ProjectCard(project: project)),
-                    ),
-                  )
-                  .toList(),
-            )
-          else
-            SizedBox(
-              height: 340,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemCount: portfolioProjects.length,
-                separatorBuilder: (_, _) => const SizedBox(width: 24),
-                itemBuilder: (_, index) => ProjectCard(project: portfolioProjects[index]),
-              ),
-            ),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              const spacing = 24.0;
+              final cardWidth = columns == 1
+                  ? constraints.maxWidth
+                  : (constraints.maxWidth - spacing) / columns;
+
+              return Wrap(
+                spacing: spacing,
+                runSpacing: spacing,
+                children: portfolioProjects
+                    .map(
+                      (project) => SizedBox(
+                        width: cardWidth,
+                        child: ProjectCard(project: project),
+                      ),
+                    )
+                    .toList(),
+              );
+            },
+          ),
         ],
       ),
     );

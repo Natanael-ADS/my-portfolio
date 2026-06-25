@@ -2,13 +2,13 @@ class AppConstants {
   static const String name = 'Natanael Cândido Silva';
   static const String role = 'Desenvolvedor Flutter Pleno';
   static const String tagline =
-      'Apps em produção · Pagamentos · Offline-first · +5 anos mobile';
+      '10+ apps em produção · Pagamentos · Offline-first · +5 anos mobile';
   static const String aboutMe = '''
-Desenvolvedor Mobile com foco em Flutter, atuando há mais de 5 anos em aplicativos em produção — da refatoração de legados até publicação nas lojas.
+Desenvolvedor Mobile com foco em Flutter e histórico em Android nativo, atuando há mais de 5 anos em aplicativos publicados nas lojas.
 
-Participei de entregas críticas como o app oficial do Rock in Rio, carteira digital com PIX (ECXPay), integrações de pagamento Stone e PagBank no MasterFoods Comanda, e apps corporativos offline-first no Sistema Quantum.
+Já participei de apps de alto tráfego (Rock in Rio), fintech com PIX (ECXPay), integrações de pagamento Stone e PagBank (MasterFoods Comanda), ERPs offline-first (Sistema Quantum) e desafios full-stack (Player Contabilidade).
 
-Atuo com ownership de features completas, code review, mentoria e CI/CD em times ágeis com prazos reais.
+Atuo com ownership de features, code review, mentoria e entrega em produção com times ágeis.
   ''';
 
   static const String email = 'natanaelxhd7@gmail.com';

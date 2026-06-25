@@ -20,19 +20,40 @@ class SkillsSection extends StatelessWidget {
           Text('Habilidades', style: AppFonts.bold(36, AppColors.textPrimary)),
           const SizedBox(height: 8),
           Container(width: 60, height: 4, color: AppColors.primary),
-          const SizedBox(height: 32),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: crossAxisCount,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              childAspectRatio: Responsive.isMobile(context) ? 3.5 : 4,
-            ),
-            itemCount: portfolioSkills.length,
-            itemBuilder: (_, index) => SkillChip(skill: portfolioSkills[index]),
+          const SizedBox(height: 12),
+          Text(
+            '${portfolioSkills.length} competências técnicas e de prática — '
+            'mobile, pagamentos, backend e entrega em produção.',
+            style: AppFonts.regular(15, AppColors.textSecondary),
           ),
+          const SizedBox(height: 32),
+          ...skillCategories.map((category) {
+            final skills = portfolioSkills.where((s) => s.category == category).toList();
+            if (skills.isEmpty) return const SizedBox.shrink();
+
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 28),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(category, style: AppFonts.bold(16, AppColors.primary)),
+                  const SizedBox(height: 12),
+                  GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: crossAxisCount,
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 10,
+                      childAspectRatio: Responsive.isMobile(context) ? 3.2 : 4.2,
+                    ),
+                    itemCount: skills.length,
+                    itemBuilder: (_, index) => SkillChip(skill: skills[index]),
+                  ),
+                ],
+              ),
+            );
+          }),
         ],
       ),
     );
