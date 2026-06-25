@@ -6,7 +6,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
 flutter pub get
-flutter build web --release '--base-href=/my-portfolio/'
+MSYS2_ARG_CONV_EXCL="*" flutter build web --release --base-href=/my-portfolio/
 
 cd build/web
 touch .nojekyll
