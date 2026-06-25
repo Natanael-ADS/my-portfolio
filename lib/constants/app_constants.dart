@@ -1,35 +1,33 @@
 class AppConstants {
-  // Informações pessoais - PERSONALIZE AQUI
-  static const String name = 'Seu Nome';
-  static const String role = 'Desenvolvedor Full Stack';
-  static const String tagline = 'Criando experiências digitais incríveis';
+  static const String name = 'Natanael Cândido Silva';
+  static const String role = 'Desenvolvedor Flutter Pleno';
+  static const String tagline =
+      'Apps em produção · Pagamentos · Offline-first · +5 anos mobile';
   static const String aboutMe = '''
-Sou um desenvolvedor apaixonado por tecnologia e inovação. 
-Com experiência em desenvolvimento mobile, web e backend, 
-busco sempre criar soluções que fazem a diferença na vida das pessoas.
+Desenvolvedor Mobile com foco em Flutter, atuando há mais de 5 anos em aplicativos em produção — da refatoração de legados até publicação nas lojas.
+
+Participei de entregas críticas como o app oficial do Rock in Rio, carteira digital com PIX (ECXPay), integrações de pagamento Stone e PagBank no MasterFoods Comanda, e apps corporativos offline-first no Sistema Quantum.
+
+Atuo com ownership de features completas, code review, mentoria e CI/CD em times ágeis com prazos reais.
   ''';
 
-  // Contato
-  static const String email = 'seu.email@exemplo.com';
-  static const String phone = '+55 (11) 99999-9999';
-  static const String location = 'São Paulo, Brasil';
+  static const String email = 'natanaelxhd7@gmail.com';
+  static const String phone = '';
+  static const String location = 'Brasil · Remoto';
 
-  // Redes sociais
-  static const String github = 'https://github.com/seuusuario';
-  static const String linkedin = 'https://linkedin.com/in/seuusuario';
-  static const String twitter = 'https://twitter.com/seuusuario';
+  static const String github = 'https://github.com/Natanael-ADS';
+  static const String linkedin = 'https://www.linkedin.com/in/natanaelads';
+  static const String twitter = '';
 
-  // Responsividade
   static const double mobileBreakpoint = 768;
   static const double tabletBreakpoint = 1024;
   static const double desktopBreakpoint = 1140;
 
-  // Espaçamentos
   static const double paddingSmall = 16.0;
   static const double paddingMedium = 24.0;
   static const double paddingLarge = 48.0;
   static const double paddingXLarge = 64.0;
 
-  // Alturas das seções
   static const double homeSectionHeight = 550.0;
+  static const double sectionMinHeight = 500.0;
 }

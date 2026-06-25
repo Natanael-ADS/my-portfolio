@@ -5,7 +5,12 @@ import 'package:my_portfolio/constants/app_assets.dart';
 import 'package:my_portfolio/constants/app_colors.dart';
 import 'package:my_portfolio/constants/app_constants.dart';
 import 'package:my_portfolio/constants/app_fonts.dart';
+import 'package:my_portfolio/sections/about/about_section.dart';
+import 'package:my_portfolio/sections/contact/contact_section.dart';
 import 'package:my_portfolio/sections/home/home_section.dart';
+import 'package:my_portfolio/sections/projects/projects_section.dart';
+import 'package:my_portfolio/sections/skills/skills_section.dart';
+import 'package:my_portfolio/utils/responsive.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,10 +20,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  static const _sectionCount = 5;
   static const _titleSizeWithSpacing = 40.0;
 
   var _selectedIndex = 0;
   final _scrollController = ScrollController();
+  final _sectionKeys = List.generate(_sectionCount, (_) => GlobalKey());
 
   @override
   void initState() {
@@ -27,12 +34,23 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onScroll() {
-    final scrollPosition = _scrollController.position.pixels;
-    final newIndex = (scrollPosition / AppConstants.homeSectionHeight).round().clamp(0, 3);
+    var newIndex = 0;
+    for (var i = 0; i < _sectionKeys.length; i++) {
+      final context = _sectionKeys[i].currentContext;
+      if (context == null) continue;
 
-    if (newIndex == _selectedIndex) return;
+      final box = context.findRenderObject() as RenderBox?;
+      if (box == null) continue;
 
-    setState(() => _selectedIndex = newIndex);
+      final position = box.localToGlobal(Offset.zero).dy;
+      if (position <= 120) {
+        newIndex = i;
+      }
+    }
+
+    if (newIndex != _selectedIndex) {
+      setState(() => _selectedIndex = newIndex);
+    }
   }
 
   @override
@@ -44,16 +62,21 @@ class _HomePageState extends State<HomePage> {
   void _scrollToSection(int index) {
     setState(() => _selectedIndex = index);
 
-    final targetPosition = index * AppConstants.homeSectionHeight;
-    _scrollController.animateTo(
-      targetPosition,
-      curve: Curves.easeInOut,
+    final context = _sectionKeys[index].currentContext;
+    if (context == null) return;
+
+    Scrollable.ensureVisible(
+      context,
       duration: const Duration(milliseconds: 800),
+      curve: Curves.easeInOut,
+      alignment: 0.05,
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = Responsive.isMobile(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.background,
@@ -61,41 +84,29 @@ class _HomePageState extends State<HomePage> {
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: AppConstants.desktopBreakpoint),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppConstants.paddingLarge),
+              padding: EdgeInsets.symmetric(
+                horizontal: isMobile ? AppConstants.paddingSmall : AppConstants.paddingLarge,
+              ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Image.asset(AppAssets.logo, width: 32, height: 32),
-                  Spacer(),
-                  AppTextButton(
-                    text: 'Início',
-                    onPressed: () => _scrollToSection(0),
-                    textStyle: _getTitleStyle(0),
-                  ),
-                  SizedBox(width: _titleSizeWithSpacing),
-                  AppTextButton(
-                    text: 'Sobre',
-                    onPressed: () => _scrollToSection(1),
-                    textStyle: _getTitleStyle(1),
-                  ),
-                  SizedBox(width: _titleSizeWithSpacing),
-                  AppTextButton(
-                    text: 'Habilidades',
-                    onPressed: () => _scrollToSection(2),
-                    textStyle: _getTitleStyle(2),
-                  ),
-                  SizedBox(width: _titleSizeWithSpacing),
-                  AppTextButton(
-                    text: 'Projetos',
-                    onPressed: () => _scrollToSection(3),
-                    textStyle: _getTitleStyle(3),
-                  ),
-                  SizedBox(width: _titleSizeWithSpacing),
-                  Spacer(),
-                  AppFilledButton(
-                    text: 'Contrate-me',
-                    onPressed: () => _scrollToSection(4),
-                  ),
+                  if (!isMobile) ...[
+                    const Spacer(),
+                    _navButton('Início', 0),
+                    const SizedBox(width: _titleSizeWithSpacing),
+                    _navButton('Sobre', 1),
+                    const SizedBox(width: _titleSizeWithSpacing),
+                    _navButton('Habilidades', 2),
+                    const SizedBox(width: _titleSizeWithSpacing),
+                    _navButton('Projetos', 3),
+                    const SizedBox(width: _titleSizeWithSpacing),
+                    const Spacer(),
+                    AppFilledButton(
+                      text: 'Contrate-me',
+                      onPressed: () => _scrollToSection(4),
+                    ),
+                  ] else
+                    const Spacer(),
                 ],
               ),
             ),
@@ -103,35 +114,52 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       backgroundColor: AppColors.background,
+      floatingActionButton: isMobile
+          ? FloatingActionButton.extended(
+              onPressed: () => _scrollToSection(4),
+              backgroundColor: AppColors.primary,
+              label: const Text('Contato'),
+              icon: const Icon(Icons.mail_outline),
+            )
+          : null,
       body: ListView(
         controller: _scrollController,
         physics: const BouncingScrollPhysics(),
         padding: EdgeInsets.zero,
         children: [
-          HomeSection(),
-          Container(
-            color: Colors.blue,
-            height: AppConstants.homeSectionHeight,
-            child: Center(child: Text('Sobre')),
-          ),
-          Container(
-            color: Colors.green,
-            height: AppConstants.homeSectionHeight,
-            child: Center(child: Text('Habilidades')),
-          ),
-          Container(
-            color: Colors.yellow,
-            height: AppConstants.homeSectionHeight,
-            child: Center(child: Text('Projetos')),
-          ),
+          KeyedSubtree(key: _sectionKeys[0], child: HomeSection(onContactPressed: () => _scrollToSection(4))),
+          _sectionWrapper(1, const AboutSection()),
+          _sectionWrapper(2, const SkillsSection()),
+          _sectionWrapper(3, const ProjectsSection()),
+          _sectionWrapper(4, const ContactSection()),
+          const SizedBox(height: 48),
         ],
       ),
     );
   }
 
+  Widget _sectionWrapper(int index, Widget child) {
+    return KeyedSubtree(
+      key: _sectionKeys[index],
+      child: Container(
+        constraints: const BoxConstraints(minHeight: AppConstants.sectionMinHeight),
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(vertical: 48),
+        child: child,
+      ),
+    );
+  }
+
+  Widget _navButton(String label, int index) {
+    return AppTextButton(
+      text: label,
+      onPressed: () => _scrollToSection(index),
+      textStyle: _getTitleStyle(index),
+    );
+  }
+
   TextStyle _getTitleStyle(int index) {
     if (index == _selectedIndex) return AppFonts.bold(16, AppColors.primary);
-
     return AppFonts.regular(16, AppColors.textSecondary);
   }
 }

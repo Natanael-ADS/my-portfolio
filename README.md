@@ -1,19 +1,38 @@
-# my_portfolio
+# Natanael Cândido Silva — Portfólio
 
-A new Flutter project.
+Portfólio profissional em Flutter Web.
 
-## Getting Started
+**Live:** https://natanael-ads.github.io/my-portfolio/
 
-This project is a starting point for a Flutter application.
+## Seções
 
-A few resources to get you started if this is your first Flutter project:
+- Hero com apresentação
+- Sobre
+- Habilidades (Flutter, pagamentos, offline-first, Java/Spring)
+- 3 projetos em destaque (Rock in Rio/ECXPay, MasterFoods, Player Contabilidade)
+- Contato (e-mail, LinkedIn, GitHub)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Rodar localmente
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```bash
+flutter pub get
+flutter run -d chrome
+```
 
-[FIGMA - DESIGN BASE](
-https://www.figma.com/design/ACfmtnfPwWdIDTeHF9UexT/Personal-website-%7C-Portfolio--Community-?node-id=587-638&p=f&t=UhQQYsuBotvtfg0M-0)
+## Build web
+
+```bash
+flutter build web --release --base-href "/my-portfolio/"
+```
+
+## Deploy (GitHub Pages)
+
+O workflow `.github/workflows/deploy.yml` publica automaticamente no push para `main`.
+
+**Configurar no GitHub:**
+1. Settings → Pages → Source: **GitHub Actions**
+2. Push para `main`
+
+## Personalizar
+
+Edite `lib/constants/app_constants.dart` para dados pessoais.
