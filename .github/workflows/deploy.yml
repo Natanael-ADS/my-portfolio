@@ -30,7 +30,7 @@ jobs:
         working-directory: .
 
       - name: Build web
-        run: flutter build web --release --base-href "/my-portfolio/"
+        run: flutter build web --release '--base-href=/my-portfolio/'
         working-directory: .
 
       - name: Upload artifact
